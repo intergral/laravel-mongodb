@@ -711,6 +711,25 @@ $users = User::where('birthday', '>', new DateTime('-18 years'))->get();
 
 ### Relations
 
+By default, relationships are not stored as ObjectIds. If you need relationships to be stored as ObjectIds, you can specify that they should be by adding them to the $casts array:
+
+```php
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+
+class User extends Eloquent {
+
+    protected $casts = [
+        'account_id' => 'objectid' // 'objectid' has to be lowercase!
+    ];
+
+    public function account()
+    {
+        return $this->belongsTo('Account');
+    }
+
+}
+```
+
 Supported relations are:
 
  - hasOne
