@@ -876,16 +876,15 @@ class Builder extends BaseBuilder
         }
 
         // Convert $casts
-        if($this->isCastableToObjectId($column))
-        {
-            if(is_array($params[2])) {
+        if ($this->isCastableToObjectId($column)) {
+            if (is_array($params[2])) {
                 foreach ($params[2] as &$value) {
-                    if(is_string($value)) {
+                    if (is_string($value)) {
                         $value = new ObjectId($value);
                     }
                 }
             } else {
-                if(is_string($params[2])) {
+                if (is_string($params[2])) {
                     $params[2] = new ObjectId($params[2]);
                 }
             }
@@ -954,18 +953,18 @@ class Builder extends BaseBuilder
                 if (is_array($where['value'])) {
                     array_walk_recursive($where['value'], function (&$item, $key) {
                         if ($item instanceof DateTime) {
-                            $item = new UTCDateTime($item->format('Uv'));
+                            $item = new UTCDateTime($item->getTimestamp() * 1000);
                         }
                     });
                 } else {
                     if ($where['value'] instanceof DateTime) {
-                        $where['value'] = new UTCDateTime($where['value']->format('Uv'));
+                        $where['value'] = new UTCDateTime($where['value']->getTimestamp() * 1000);
                     }
                 }
             } elseif (isset($where['values'])) {
                 array_walk_recursive($where['values'], function (&$item, $key) {
                     if ($item instanceof DateTime) {
-                        $item = new UTCDateTime($item->format('Uv'));
+                        $item = new UTCDateTime($item->getTimestamp() * 1000);
                     }
                 });
             }
