@@ -84,7 +84,7 @@ abstract class Model extends BaseModel
             $value = parent::asDateTime($value);
         }
 
-        return new UTCDateTime($value->getTimestamp() * 1000);
+        return new UTCDateTime($value->format('Uv'));
     }
 
     /**
@@ -94,7 +94,7 @@ abstract class Model extends BaseModel
     {
         // Convert UTCDateTime instances.
         if ($value instanceof UTCDateTime) {
-            return Carbon::createFromTimestamp($value->toDateTime()->getTimestamp());
+            return Carbon::createFromTimestamp($value->toDateTime()->format('Uv'));
         }
 
         if ($value instanceof Carbon) {
@@ -117,7 +117,7 @@ abstract class Model extends BaseModel
      */
     public function freshTimestamp()
     {
-        return new UTCDateTime(time() * 1000);
+        return new UTCDateTime(microtime(true) * 1000);
     }
 
     /**
