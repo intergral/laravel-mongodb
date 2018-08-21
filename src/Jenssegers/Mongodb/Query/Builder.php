@@ -784,6 +784,9 @@ class Builder extends BaseBuilder
         if (is_array($column)) {
             $query = [$operator => $column];
         } else {
+            // TODO: deal with arrays ($batch)
+            // TODO: fix push() as well
+            $value = $this->isCastableToObjectId($column) ? $this->convertKey($value) : $value;
             $query = [$operator => [$column => $value]];
         }
 
