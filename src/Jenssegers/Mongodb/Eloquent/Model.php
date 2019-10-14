@@ -300,10 +300,10 @@ abstract class Model extends BaseModel
                 foreach ($value as &$val) {
                     $val = (string) $val;
                 }
-            } else {
-                $value = (string) $value;
             } elseif ($value instanceof Binary) {
                 $value = (string) $value->getData();
+            } else {
+                $value = (string) $value;
             }
 
             Arr::set($attributes, $key, $value);
