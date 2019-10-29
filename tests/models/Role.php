@@ -1,7 +1,5 @@
 <?php
-declare(strict_types=1);
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Role extends Eloquent
@@ -10,12 +8,12 @@ class Role extends Eloquent
     protected $collection = 'roles';
     protected static $unguarded = true;
 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo('User');
     }
 
-    public function mysqlUser(): BelongsTo
+    public function mysqlUser()
     {
         return $this->belongsTo('MysqlUser');
     }

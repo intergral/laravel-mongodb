@@ -2,22 +2,22 @@
 
 return [
 
-    'default' => env('QUEUE_CONNECTION'),
+    'default' => 'database',
 
     'connections' => [
 
         'database' => [
             'driver' => 'mongodb',
-            'table' => 'jobs',
-            'queue' => 'default',
+            'table'  => 'jobs',
+            'queue'  => 'default',
             'expire' => 60,
         ],
 
     ],
 
     'failed' => [
-        'database' => env('MONGO_DATABASE'),
-        'table' => 'failed_jobs',
+        'database' => 'mongodb',
+        'table'    => 'failed_jobs',
     ],
 
 ];

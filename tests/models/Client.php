@@ -1,9 +1,5 @@
 <?php
-declare(strict_types=1);
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Client extends Eloquent
@@ -12,17 +8,17 @@ class Client extends Eloquent
     protected $collection = 'clients';
     protected static $unguarded = true;
 
-    public function users(): BelongsToMany
+    public function users()
     {
         return $this->belongsToMany('User');
     }
 
-    public function photo(): MorphOne
+    public function photo()
     {
         return $this->morphOne('Photo', 'imageable');
     }
 
-    public function addresses(): HasMany
+    public function addresses()
     {
         return $this->hasMany('Address', 'data.client_id', 'data.client_id');
     }

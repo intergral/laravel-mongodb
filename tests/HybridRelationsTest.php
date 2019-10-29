@@ -1,11 +1,8 @@
 <?php
-declare(strict_types=1);
-
-use Illuminate\Database\MySqlConnection;
 
 class HybridRelationsTest extends TestCase
 {
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -14,7 +11,7 @@ class HybridRelationsTest extends TestCase
         MysqlRole::executeSchema();
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         MysqlUser::truncate();
         MysqlBook::truncate();
@@ -24,13 +21,13 @@ class HybridRelationsTest extends TestCase
     public function testMysqlRelations()
     {
         $user = new MysqlUser;
-        $this->assertInstanceOf(MysqlUser::class, $user);
-        $this->assertInstanceOf(MySqlConnection::class, $user->getConnection());
+        $this->assertInstanceOf('MysqlUser', $user);
+        $this->assertInstanceOf('Illuminate\Database\MySqlConnection', $user->getConnection());
 
         // Mysql User
         $user->name = "John Doe";
         $user->save();
-        $this->assertIsInt($user->id);
+        $this->assertInternalType('int', $user->id);
 
         // SQL has many
         $book = new Book(['title' => 'Game of Thrones']);
@@ -82,10 +79,10 @@ class HybridRelationsTest extends TestCase
     {
         $user = new MysqlUser;
         $otherUser = new MysqlUser;
-        $this->assertInstanceOf(MysqlUser::class, $user);
-        $this->assertInstanceOf(MySqlConnection::class, $user->getConnection());
-        $this->assertInstanceOf(MysqlUser::class, $otherUser);
-        $this->assertInstanceOf(MySqlConnection::class, $otherUser->getConnection());
+        $this->assertInstanceOf('MysqlUser', $user);
+        $this->assertInstanceOf('Illuminate\Database\MySqlConnection', $user->getConnection());
+        $this->assertInstanceOf('MysqlUser', $otherUser);
+        $this->assertInstanceOf('Illuminate\Database\MySqlConnection', $otherUser->getConnection());
 
         //MySql User
         $user->name = "John Doe";
@@ -96,8 +93,8 @@ class HybridRelationsTest extends TestCase
         $otherUser->id = 3;
         $otherUser->save();
         // Make sure they are created
-        $this->assertIsInt($user->id);
-        $this->assertIsInt($otherUser->id);
+        $this->assertInternalType('int', $user->id);
+        $this->assertInternalType('int', $otherUser->id);
         // Clear to start
         $user->books()->truncate();
         $otherUser->books()->truncate();
@@ -136,10 +133,10 @@ class HybridRelationsTest extends TestCase
     {
         $user = new MysqlUser;
         $otherUser = new MysqlUser;
-        $this->assertInstanceOf(MysqlUser::class, $user);
-        $this->assertInstanceOf(MySqlConnection::class, $user->getConnection());
-        $this->assertInstanceOf(MysqlUser::class, $otherUser);
-        $this->assertInstanceOf(MySqlConnection::class, $otherUser->getConnection());
+        $this->assertInstanceOf('MysqlUser', $user);
+        $this->assertInstanceOf('Illuminate\Database\MySqlConnection', $user->getConnection());
+        $this->assertInstanceOf('MysqlUser', $otherUser);
+        $this->assertInstanceOf('Illuminate\Database\MySqlConnection', $otherUser->getConnection());
 
         //MySql User
         $user->name = "John Doe";
@@ -150,8 +147,8 @@ class HybridRelationsTest extends TestCase
         $otherUser->id = 3;
         $otherUser->save();
         // Make sure they are created
-        $this->assertIsInt($user->id);
-        $this->assertIsInt($otherUser->id);
+        $this->assertInternalType('int', $user->id);
+        $this->assertInternalType('int', $otherUser->id);
         // Clear to start
         Book::truncate();
         MysqlBook::truncate();

@@ -1,10 +1,9 @@
 <?php
-declare(strict_types=1);
 
-use Jenssegers\Mongodb\Collection;
 use Jenssegers\Mongodb\Connection;
-use MongoDB\BSON\ObjectID;
+use Jenssegers\Mongodb\Collection;
 use MongoDB\Collection as MongoCollection;
+use MongoDB\BSON\ObjectID;
 
 class CollectionTest extends TestCase
 {

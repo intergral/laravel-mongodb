@@ -1,9 +1,5 @@
 <?php
-declare(strict_types=1);
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Jenssegers\Mongodb\Eloquent\HybridRelations;
 
@@ -15,17 +11,17 @@ class MysqlUser extends Eloquent
     protected $table = 'users';
     protected static $unguarded = true;
 
-    public function books(): HasMany
+    public function books()
     {
         return $this->hasMany('Book', 'author_id');
     }
 
-    public function role(): HasOne
+    public function role()
     {
         return $this->hasOne('Role');
     }
 
-    public function mysqlBooks(): HasMany
+    public function mysqlBooks()
     {
         return $this->hasMany(MysqlBook::class);
     }
@@ -33,13 +29,12 @@ class MysqlUser extends Eloquent
     /**
      * Check if we need to run the schema.
      */
-    public static function executeSchema(): void
+    public static function executeSchema()
     {
-        /** @var \Illuminate\Database\Schema\MySqlBuilder $schema */
         $schema = Schema::connection('mysql');
 
         if (!$schema->hasTable('users')) {
-            Schema::connection('mysql')->create('users', function (Blueprint $table) {
+            Schema::connection('mysql')->create('users', function ($table) {
                 $table->increments('id');
                 $table->string('name');
                 $table->timestamps();

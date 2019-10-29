@@ -4,7 +4,6 @@ namespace Jenssegers\Mongodb\Relations;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use MongoDB\BSON\ObjectID;
@@ -33,7 +32,8 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Save a new model and attach it to the parent model.
-     * @param Model $model
+     *
+     * @param  Model $model
      * @return Model|bool
      */
     public function performInsert(Model $model)
@@ -62,7 +62,8 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Save an existing model and attach it to the parent model.
-     * @param Model $model
+     *
+     * @param  Model $model
      * @return Model|bool
      */
     public function performUpdate(Model $model)
@@ -93,7 +94,8 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Delete an existing model and detach it from the parent model.
-     * @param Model $model
+     *
+     * @param  Model $model
      * @return int
      */
     public function performDelete(Model $model)
@@ -119,21 +121,23 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Associate the model instance to the given parent, without saving it to the database.
-     * @param Model $model
+     *
+     * @param  Model $model
      * @return Model
      */
     public function associate(Model $model)
     {
         if (!$this->contains($model)) {
             return $this->associateNew($model);
+        } else {
+            return $this->associateExisting($model);
         }
-
-        return $this->associateExisting($model);
     }
 
     /**
      * Dissociate the model instance from the given parent, without saving it to the database.
-     * @param mixed $ids
+     *
+     * @param  mixed $ids
      * @return int
      */
     public function dissociate($ids = [])
@@ -161,7 +165,8 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Destroy the embedded models for the given IDs.
-     * @param mixed $ids
+     *
+     * @param  mixed $ids
      * @return int
      */
     public function destroy($ids = [])
@@ -185,6 +190,7 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Delete all embedded models.
+     *
      * @return int
      */
     public function delete()
@@ -201,7 +207,8 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Destroy alias.
-     * @param mixed $ids
+     *
+     * @param  mixed $ids
      * @return int
      */
     public function detach($ids = [])
@@ -211,7 +218,8 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Save alias.
-     * @param Model $model
+     *
+     * @param  Model $model
      * @return Model
      */
     public function attach(Model $model)
@@ -221,13 +229,14 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Associate a new model instance to the given parent, without saving it to the database.
-     * @param Model $model
+     *
+     * @param  Model $model
      * @return Model
      */
     protected function associateNew($model)
     {
         // Create a new key if needed.
-        if ($model->getKeyName() === '_id' && !$model->getAttribute('_id')) {
+        if (!$model->getAttribute('_id')) {
             $model->setAttribute('_id', new ObjectID);
         }
 
@@ -241,7 +250,8 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Associate an existing model instance to the given parent, without saving it to the database.
-     * @param Model $model
+     *
+     * @param  Model $model
      * @return Model
      */
     protected function associateExisting($model)
@@ -266,7 +276,8 @@ class EmbedsMany extends EmbedsOneOrMany
 
     /**
      * Get a paginator for the "select" statement.
-     * @param int $perPage
+     *
+     * @param  int $perPage
      * @return \Illuminate\Pagination\AbstractPaginator
      */
     public function paginate($perPage = null)
@@ -316,16 +327,5 @@ class EmbedsMany extends EmbedsOneOrMany
         }
 
         return parent::__call($method, $parameters);
-    }
-
-    /**
-     * Get the name of the "where in" method for eager loading.
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string $key
-     * @return string
-     */
-    protected function whereInMethod(EloquentModel $model, $key)
-    {
-        return 'whereIn';
     }
 }

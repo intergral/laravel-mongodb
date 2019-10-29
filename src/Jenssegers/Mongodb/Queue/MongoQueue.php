@@ -11,12 +11,14 @@ class MongoQueue extends DatabaseQueue
 {
     /**
      * The expiration time of a job.
+     *
      * @var int|null
      */
     protected $retryAfter = 60;
 
     /**
      * The connection name for the queue.
+     *
      * @var string
      */
     protected $connectionName;
@@ -37,7 +39,7 @@ class MongoQueue extends DatabaseQueue
     {
         $queue = $this->getQueue($queue);
 
-        if ($this->retryAfter !== null) {
+        if (!is_null($this->retryAfter)) {
             $this->releaseJobsThatHaveBeenReservedTooLong($queue);
         }
 
@@ -50,13 +52,17 @@ class MongoQueue extends DatabaseQueue
 
     /**
      * Get the next available job for the queue and mark it as reserved.
+     *
      * When using multiple daemon queue listeners to process jobs there
      * is a possibility that multiple processes can end up reading the
      * same record before one has flagged it as reserved.
+     *
      * This race condition can result in random jobs being run more then
      * once. To solve this we use findOneAndUpdate to lock the next jobs
      * record while flagging it as reserved at the same time.
-     * @param string|null $queue
+     *
+     * @param  string|null $queue
+     *
      * @return \StdClass|null
      */
     protected function getNextAvailableJobAndReserve($queue)
@@ -88,7 +94,8 @@ class MongoQueue extends DatabaseQueue
 
     /**
      * Release the jobs that have been reserved for too long.
-     * @param string $queue
+     *
+     * @param  string $queue
      * @return void
      */
     protected function releaseJobsThatHaveBeenReservedTooLong($queue)
@@ -117,8 +124,9 @@ class MongoQueue extends DatabaseQueue
 
     /**
      * Release the given job ID from reservation.
-     * @param string $id
-     * @param int $attempts
+     *
+     * @param  string $id
+     * @param  int $attempts
      * @return void
      */
     protected function releaseJob($id, $attempts)

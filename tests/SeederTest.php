@@ -1,14 +1,13 @@
 <?php
-declare(strict_types=1);
 
 class SeederTest extends TestCase
 {
-    public function tearDown(): void
+    public function tearDown()
     {
         User::truncate();
     }
 
-    public function testSeed(): void
+    public function testSeed()
     {
         $seeder = new UserTableSeeder;
         $seeder->run();
@@ -17,7 +16,7 @@ class SeederTest extends TestCase
         $this->assertTrue($user->seed);
     }
 
-    public function testArtisan(): void
+    public function testArtisan()
     {
         Artisan::call('db:seed');
 
